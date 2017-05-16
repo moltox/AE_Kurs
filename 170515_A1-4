@@ -1,0 +1,53 @@
+Aufgabe 1:
+----------
+
+definiere variable c als float
+
+
+
+solange F (integer) kleiner oder gleich 300
+
+
+
+            c = (5/9) * (  F - 32)
+			Ausgabe von c und F
+
+
+            erhöhe F um 20 
+Ende solage
+
+Aufgabe 2:
+----------
+
+deklariere wildbestand = 200, jahr = 0
+
+solange wildbestand <= 300
+  gebe aus jahr, wildbestand
+  wildbestand = (gerundet(wildbestand/100*10) - 15)
+  jahr++
+Ende solange  
+
+Aufgabe 3:
+-----------
+
+für integer i = 0 solange i <= 10, erhöhe i um 1
+   für integer ii = 0 solange ii <= 10, erhöhe ii um 1
+      gebe formatiert aus i * ii
+   Ende für ii
+   gebe aus Zeilenumbrauch
+Ende i
+
+
+Aufgabe 4:
+-----------
+solange eingabezahl >= 0
+  lese ein eingabezahl
+  zahl = zahl + eingabezahl;
+Ende solange
+
+solange
+  lese ein eingabezahl
+  zahl = zahl + eingabezahl;
+Ende solange eingabezahl >= 0
+
+
