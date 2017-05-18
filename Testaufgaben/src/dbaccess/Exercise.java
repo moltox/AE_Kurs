@@ -13,7 +13,7 @@ public class Exercise {
 			bookList[0] = new Book(s,s,s);
 			
 		if(args[0] == String.valueOf(6)) {
-			part6();
+			part6(bookList);
 		}
 		if (args[0] == String.valueOf(7)) {
 			part7();
