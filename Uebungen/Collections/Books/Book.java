@@ -56,4 +56,20 @@ public class Book implements Comparable<Book> {
 			}
 		}
 	}
+	public int hashCode(){
+		return (author.length() + issue ) % 7;
+	}
+	
+	@Override
+	public boolean equals(Object obj) {
+		if( null == obj || obj.getClass() != getClass()){
+			return false;
+		}else{
+			Book b = (Book)obj;
+			if( b.getAuthor().equals(author) && b.getTitle().equals(title) && b.getIssue() == issue)
+				return true;
+		}
+		return false;
+		
+	}
 }
