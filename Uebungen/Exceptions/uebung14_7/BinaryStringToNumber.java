@@ -1,7 +1,7 @@
 package uebung14_7;
 
-public class ConvertBinary {
-	public static int parseBinary(String binStr) {
+public class BinaryStringToNumber {
+	public static int parseBinary(String binStr) throws NoBinaryNumberException {
 		int pos = 0;
 		char c;
 		for (int i = 0, max = binStr.length(); i < max; i++) {
@@ -15,7 +15,7 @@ public class ConvertBinary {
 				}
 				break;
 			default:
-				return -1;
+				throw new NoBinaryNumberException( binStr, ++i);
 			}
 		}
 		return pos;

@@ -12,6 +12,7 @@ public class NoBinaryNumberException extends RuntimeException {
 	}
 	
 	public NoBinaryNumberException(String binary, int position) {
+		super("Binaer String: \""+ binary + "\" fehlerhaft an Stelle: "+position);
 	}
 
 
