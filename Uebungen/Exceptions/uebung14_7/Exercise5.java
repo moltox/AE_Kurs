@@ -8,16 +8,19 @@ public class Exercise5 {
 	}
 
 	public Exercise5() {
-		binTest();
+		try {
+			binTest();
+		} catch (NoBinaryNumberException except) {
+			System.out.println("Catch Block calling");
+			System.out.println(except.getMessage());
+			throw except;
+		}
 	}
 
 	@SuppressWarnings("unused")
 	public static void main(String[] args) {
 		try {
 			Exercise5 ConvertingBinary = new Exercise5();
-		} catch (NoBinaryNumberException execpt) {
-			System.out.println("Catched Exception :\n" + execpt.getMessage());
-			throw execpt;
 		} finally {
 			System.out.println("\nFinally Block");
 		}
