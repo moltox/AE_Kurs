@@ -1,3 +1,4 @@
+package uebung14_7;
 public class NoBinaryNumberException extends RuntimeException {
 
 	private static final long serialVersionUID = 1L;
