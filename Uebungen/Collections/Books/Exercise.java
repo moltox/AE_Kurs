@@ -18,7 +18,7 @@ public class Exercise {
 	public static Book[] books = new Book[6];
 	public static int maxLenAuthor = 0, maxLenTitle = 0, maxLenIssue = 0;
 
-	public Exercise() {
+	public Exercise(String method) {
 		books[0] = new Book("Goethe", "Faust I", 20_000);
 		books[1] = new Book("Schiller", "Wilhelm Tell", 10_000);
 		books[2] = new Book("J.R.R. Tolkien", "Das Silmarillion", 32_000);
@@ -32,7 +32,7 @@ public class Exercise {
 			int issueLen = String.valueOf(b.getIssue()).length();
 			maxLenIssue = (issueLen > maxLenIssue) ? issueLen : maxLenIssue;
 		}
-
+		callMethod(method);
 	}
 	
 	private static void printBooks(Collection<?> l){
@@ -113,9 +113,8 @@ public class Exercise {
 	}
 
 	public static void main(String[] args) {
-		Exercise exe = new Exercise();
 		if (args.length == 1) {
-			callMethod(args[0]);
+			Exercise exe = new Exercise(args[0]);
 		} else {
 			System.out.println("Programm erwartet 1 Argument: " + "\n6 - Ausgabe als ArrayList"
 					+ "\n7 - HashMap Implementierung" + "\n8 - Set Implementierung\nX - ArrayList + HashMap + Set");
