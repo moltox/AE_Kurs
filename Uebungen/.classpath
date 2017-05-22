@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <classpath>
-	<classpathentry kind="src" path="src"/>
+	<classpathentry kind="src" path="Sonstiges"/>
 	<classpathentry kind="src" path="ArrayList"/>
 	<classpathentry kind="src" path="Collections"/>
 	<classpathentry kind="src" path="Exceptions"/>
