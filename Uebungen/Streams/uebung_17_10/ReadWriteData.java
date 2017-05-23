@@ -5,6 +5,7 @@ import java.io.BufferedWriter;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.LinkedList;
@@ -41,7 +42,7 @@ public class ReadWriteData {
 			}
 		} ;
 		bufRead.close();
-		
+	/*	
 		BufferedWriter bufWrite = new BufferedWriter(new FileWriter("Streams\\uebung_17_10\\personal.csv"));
 		
 		char delimiter = ',';
@@ -57,5 +58,18 @@ public class ReadWriteData {
 		
 		}
 		bufWrite.close();
+		*/
+		PrintWriter pWriter = new PrintWriter(new FileWriter("Streams\\uebung_17_10\\personal.csv"));
+		char delimiter = '|';
+		pWriter.write("sep=|");
+		pWriter.println();
+		for(List<String> listen : eingaben){
+			Iterator<String> iter = listen.iterator();
+			while(iter.hasNext()){
+				pWriter.print("\""+iter.next()+"\"" + delimiter);
+			}
+			pWriter.println();
+		}
+		pWriter.close();
 	}
 }
