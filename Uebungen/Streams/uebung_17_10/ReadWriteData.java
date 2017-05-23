@@ -28,7 +28,7 @@ public class ReadWriteData {
 				List<String> in = new LinkedList<String>();
 
 				for (int c = 0; c < eingabeAufforderung.length; c++) {
-					bufRead.skip(System.in.available());
+					
 					System.out.print(eingabeAufforderung[c]);
 					in.add(bufRead.readLine());
 				}
