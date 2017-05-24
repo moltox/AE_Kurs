@@ -11,7 +11,7 @@ public class Measurements {
 	public static void main(String[] args) throws IOException {
 		BufferedReader bufIn = new BufferedReader(new FileReader("Streams\\uebung_17_10\\valuesIn.dat"));
 		BufferedWriter bufOut = new BufferedWriter(new FileWriter("Streams\\uebung_17_10\\valuesOut.dat"));
-		String s;
+
 		int messreihen = 20, messwerte = 10;
 		int currentRead;
 		for (int c = 0; c < messreihen; c++) {
@@ -20,7 +20,7 @@ public class Measurements {
 				bufOut.write(currentRead);
 				System.out.printf("%4d", currentRead);
 			}
-			System.out.printf(" Ende der Messreihe %d\n", c);
+			System.out.printf(" Ende der Messreihe %d\n", c + 1);
 		}
 		bufIn.close();
 		bufOut.close();
