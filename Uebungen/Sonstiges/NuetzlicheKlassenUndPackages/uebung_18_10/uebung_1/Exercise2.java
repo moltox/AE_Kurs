@@ -1,16 +1,9 @@
 package NuetzlicheKlassenUndPackages.uebung_18_10.uebung_1;
 
 import java.text.DateFormatSymbols;
-import java.text.SimpleDateFormat;
 import java.time.DayOfWeek;
 import java.time.LocalDate;
-import java.time.Month;
-import java.time.Period;
-import java.time.YearMonth;
 import java.time.temporal.WeekFields;
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.List;
 import java.util.Locale;
 
 public class Exercise2 {
