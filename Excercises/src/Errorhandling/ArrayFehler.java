@@ -1,3 +1,5 @@
+package Errorhandling;
+
 // Aufgabe 24
 public class ArrayFehler {
 

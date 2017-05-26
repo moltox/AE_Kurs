@@ -1,3 +1,5 @@
+package Errorhandling;
+
 // Aufgabe 23
 public class Fehlerbehandlung {
 

@@ -1,3 +1,5 @@
+package Errorhandling;
+
 
 public class NoBinaryNumberException extends RuntimeException {
 	

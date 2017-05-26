@@ -1,3 +1,5 @@
+package ReaderWriterexercises;
+
 import java.io.FileWriter;
 import java.io.FilterWriter;
 import java.io.IOException;

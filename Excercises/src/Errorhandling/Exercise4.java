@@ -1,3 +1,5 @@
+package Errorhandling;
+
 public class Exercise4 {
 	
 	public Exercise4( )

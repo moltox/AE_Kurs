@@ -1,3 +1,5 @@
+package Errorhandling;
+
 public class Fehler {
 	
 	public static void fehler ( ) {

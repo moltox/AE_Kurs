@@ -1,3 +1,5 @@
+package Errorhandling;
+
 public class BinaryStringToNumber {
 	
 	public static int parseBinary ( String s ) throws NoBinaryNumberException
