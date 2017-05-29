@@ -30,7 +30,7 @@ public class DBM_1 {
 		
 		try {
 	    
-			this.con = DriverManager.getConnection( "jdbc:hsqldb:file:c:\\users\\bkerkes\\desktop\\tutegodb\\tutegodb;shutdown=true", "sa", "" );
+			this.con = DriverManager.getConnection( "jdbc:hsqldb:file:c:\\users\\anwender\\desktop\\tutegodb\\tutegodb;shutdown=true", "sa", "" );
 	    }
 	    catch ( SQLException e ) {
 	    	

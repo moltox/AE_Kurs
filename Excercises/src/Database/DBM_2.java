@@ -70,8 +70,8 @@ public class DBM_2 {
 		try {
 			
 			this.stmt = this.con.createStatement( );
-			this.rs = this.stmt.executeQuery( "INSERT INTO Customer VALUES ( 50, 'Ben', 'Kerkes', 'Brauerstr', 'Duisburg' )" );
-			System.out.println( "Datensatz wurde hinzugefuegt." );
+			int i = this.stmt.executeUpdate( "INSERT INTO Customer VALUES ( 50, 'Ben', 'Kerkes', 'Brauerstr', 'Duisburg' )" );
+			System.out.println( i + " Datensatz wurde hinzugefuegt." );
 		} catch ( SQLException e ) {
 			
 			e.printStackTrace( );
@@ -83,8 +83,8 @@ public class DBM_2 {
 		try {
 			
 			this.stmt = this.con.createStatement( );
-			this.rs = this.stmt.executeQuery( "DELETE FROM Customer WHERE ID = 50" );
-			System.out.println( "Datensatz wurde geloescht." );
+			int i = this.stmt.executeUpdate( "DELETE FROM Customer WHERE ID = 50" );
+			System.out.println( i + " Datensatz wurde geloescht." );
 		} catch ( SQLException e ) {
 			
 			e.printStackTrace( );
@@ -96,8 +96,8 @@ public class DBM_2 {
 		try {
 			
 			this.stmt = this.con.createStatement( );
-			this.rs = this.stmt.executeQuery( "Update Customer SET STREET = 'Brauerstr.8' WHERE ID = 50" );
-			System.out.println( "Datensatz wurde geaendert." );
+			int i = this.stmt.executeUpdate( "Update Customer SET STREET = 'Brauerstr.8' WHERE ID = 50" );
+			System.out.println( i + " Datensatz wurde geaendert." );
 		} catch ( SQLException e ) {
 			
 			e.printStackTrace( );
