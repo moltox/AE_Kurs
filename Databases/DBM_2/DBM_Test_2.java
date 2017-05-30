@@ -9,7 +9,7 @@ public class DBM_Test_2 {
 		int toDo = -1;
 		
 		Connection connection = DBM_2.connectDB("uebung_1/database", "SA", null);
-		while(( toDo = menu.getCommand() ) != 5 ){
+		while(( toDo = menu.getCommand() ) != 6 ){
 			menu.runCmd(toDo, connection);
 		}
 		

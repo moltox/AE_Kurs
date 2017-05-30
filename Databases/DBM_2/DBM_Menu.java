@@ -9,7 +9,8 @@ public class DBM_Menu {
 			"2 - Datensatz eintragen",
 			"3 - Datensatz entfernen",
 			"4 - Datenbank aktualisieren",
-			"5 - Programm beenden ..."
+			"5 - Datensatz suchen",
+			"6 - Programm beenden..."
 	};
 
 	private Scanner in = null;
@@ -118,6 +119,24 @@ public class DBM_Menu {
 					if (DBM_2.updateDatabase(connection, idUpdate, getValues(in)) == 1) {
 						System.out.println("Aenderung erfolgreich...");
 					}
+				} catch (SQLException except) {
+					except.printStackTrace();
+				}
+
+			} catch (InputMismatchException e) {
+				System.out.println("ID nicht vorhanden");
+				in.nextLine();
+			}
+			break;
+		case 5:
+			System.out.println("Suche nach ID: ");
+			try {
+
+				int idUpdate = -1;
+				idUpdate = in.nextInt();
+				in.nextLine();
+				try {
+					DBM_1.showQuery(DBM_1.dbQuery(connection, "SELECT * FROM customer WHERE id = " + idUpdate));
 				} catch (SQLException except) {
 					except.printStackTrace();
 				}
