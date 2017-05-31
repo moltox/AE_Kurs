@@ -145,17 +145,4 @@ public class DBM_4 {
 			e.printStackTrace( );
 		}
 	}
-	
-	public void updateDatabase( ) {
-	
-		try {
-			
-			this.stmt = this.con.createStatement( );
-			int i = this.stmt.executeUpdate( "Update Customer SET STREET = 'Brauerstr.8' WHERE ID = 50" );
-			System.out.println( i + " Datensatz wurde geaendert." );
-		} catch ( SQLException e ) {
-			
-			e.printStackTrace( );
-		}
-	}
 }
