@@ -31,7 +31,7 @@ public class DBM_4 {
 		
 		try {
 	    
-			this.con = DriverManager.getConnection( "jdbc:hsqldb:file:c:\\users\\anwender\\desktop\\tutegodb\\tutegodb;shutdown=true", "sa", "" );
+			this.con = DriverManager.getConnection( "jdbc:hsqldb:file:c:\\users\\bkerkes\\desktop\\tutegodb\\tutegodb;shutdown=true", "sa", "" );
 	    }
 	    catch ( SQLException e ) {
 	    	
@@ -52,6 +52,25 @@ public class DBM_4 {
 		}
 		return rs;
 	}
+	
+	public String dbQueryMaxId( ) {
+		
+		String puffer = "";
+		try {
+			
+			this.stmt = this.con.createStatement( );
+			this.rs = this.stmt.executeQuery( "	SELECT MAX( ID )  FROM Customer " );
+			rs.next( );
+			puffer = rs.getString( 1 );
+		} catch ( SQLException e ) {
+			
+			e.printStackTrace( );
+		}
+		return puffer;
+	}
+
+	
+
 	
 	public ResultSet dbQuery ( String suche ) {
 		
