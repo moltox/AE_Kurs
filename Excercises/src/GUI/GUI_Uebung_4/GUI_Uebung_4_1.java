@@ -8,7 +8,7 @@ import javax.swing.JPanel;
 
 public class GUI_Uebung_4_1 {
 
-	public JPanel newWindow( JFrame frame, Dimension d, int x, boolean checked ) {
+	public JPanel newWindow( JFrame frame, Dimension d, int x ) {
 		
 		JPanel panel = new JPanel( ) {
 
@@ -17,13 +17,8 @@ public class GUI_Uebung_4_1 {
 			@Override
 			protected void paintComponent( Graphics g ) {
 				
-				if( checked ) {
-					super.paintComponent( g );
-					g.fillOval( x, 10, 50, 50 );
-				}
-				if( !checked ) {
-					super.paintComponent( g );
-				}
+				super.paintComponent( g );
+				g.fillOval( x, 10, 50, 50 );				
 			}
 		};
 	

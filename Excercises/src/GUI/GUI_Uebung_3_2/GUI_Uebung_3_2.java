@@ -65,8 +65,7 @@ public class GUI_Uebung_3_2 {
 				}
 			};
 			
-			panel.setPreferredSize( d );
-			 panel.setSize( d );
+			panel.setSize( d );
 			frame.add( panel );
 		}
 }

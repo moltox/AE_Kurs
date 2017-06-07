@@ -64,8 +64,7 @@ public class GUI_3_1 {
 			}
 		};
 		
-		panel.setPreferredSize( d );
-		 panel.setSize( d );
+		panel.setSize( d );
 		frame.add( panel );
 		return panel;
 	}

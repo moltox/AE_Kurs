@@ -30,7 +30,7 @@ public class GUI_Uebung_4_1_Test extends Thread {
 				
 				for ( int i = 0; i < 500; i++ ) {
 					
-					panel = test.newWindow( frame, d, x, true );
+					panel = test.newWindow( frame, d, x );
 					panel.repaint( );
 					Thread.sleep( 100 );					
 					x++;				
