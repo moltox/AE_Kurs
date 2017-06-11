@@ -65,4 +65,4 @@ public class Palindrom implements ActionListener {
 	}
 }
 
-// Musterloesung mit NULL - Layout
+// Musterloesung mit NULL - Layout und setBounds-Platzierung
