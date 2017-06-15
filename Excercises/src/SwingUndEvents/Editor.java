@@ -19,7 +19,7 @@ public class Editor extends JFrame {
 		frame = new JFrame( );
 		setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
 		
-		//erzeuge Obermenu
+		//erzeuge Obermenu s
 		mbar = new JMenuBar( );
 		menu1 = new JMenu( "Datei" );
 		menu2 = new JMenu( "Bearbeiten" );

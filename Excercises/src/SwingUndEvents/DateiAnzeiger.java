@@ -23,7 +23,7 @@ public class DateiAnzeiger {
 	private JScrollPane scrollPane;
 	
 	private int option;
-	
+	//
 	private void erzeugeFensterUndLeseDateiAus( File file ) {
 		
 		String inputString = "";
