@@ -12,7 +12,6 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JTextArea;
 import javax.swing.JScrollPane;
-import javax.swing.ScrollPaneConstants;
 
 public class DateiAnzeiger {
 	
@@ -32,8 +31,10 @@ public class DateiAnzeiger {
 		frame = new JFrame( );
 		frame.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
 		panel = new JPanel( );
-		panel.setLayout( new GridLayout( ) );
+
+		panel.setLayout( new GridLayout() );
 		tarea = new JTextArea( );
+
 		scrollPane = new JScrollPane( JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
                 JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS );
 		scrollPane.setViewportView( tarea );
@@ -55,7 +56,8 @@ public class DateiAnzeiger {
 			
 			System.err.println( e.toString( ) );
 		}
-		panel.add( tarea );
+
+		panel.add( scrollPane );
 		frame.add( panel );
 		frame.setSize( 100, 100);
 		frame.setVisible( true );
