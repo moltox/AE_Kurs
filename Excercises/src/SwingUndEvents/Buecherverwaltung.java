@@ -1,31 +1,34 @@
 package SwingUndEvents;
 
 import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.HashSet;
+import java.util.Iterator;
+import java.util.List;
+
 import java.awt.Component;
 import java.awt.Container;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.BufferedReader;
+
+import java.io.EOFException;
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
-import java.io.FileReader;
 import java.io.IOException;
+import java.io.NotSerializableException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.io.Serializable;
 
 import javax.swing.JButton;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JTextField;
+import javax.swing.JOptionPane;
 
-public class Buecherverwaltung implements ActionListener {
+public class Buecherverwaltung implements ActionListener, Serializable {
 	
 	private JFileChooser fc;
 	private File file;
@@ -48,20 +51,77 @@ public class Buecherverwaltung implements ActionListener {
 	private JButton btnSortByAuthor;
 	private JButton btnSortByTitle;
 	private JButton btnSortByYear;
-	private JButton btnSortByPublisher;
+	private JButton btnSortByPublisher;	
 	
+	private static final long serialVersionUID = 1L;
+	private List< Book > books;
+	private ObjectInputStream ois;
+	private FileInputStream fis;
+	private String buffer;
 	
 	Buecherverwaltung( ) {
-		
+
 		buildFrame( );
 	}
 	
+	class Book implements Serializable {
+
+		private static final long serialVersionUID = 1L;
+		private String author;
+		private String title;
+		private String year;
+		private String publisher;	
+		
+		Book ( String author, String title, String year, String publisher ) {
+			
+			setAuthor( author );
+			setTitle( title );
+			setYear( year );
+			setPublisher( publisher );
+		}
+		
+		public String getAuthor( ) {
+			
+			return author;
+		}
+		public void setAuthor( String author ) {
+			
+			this.author = author;
+		}
+		public String getTitle( ) {
+			
+			return title;
+		}
+		public void setTitle( String title ) {
+			
+			this.title = title;
+		}
+		public String getYear( ) {
+			
+			return year;
+		}
+		public void setYear( String year ) {
+			
+			this.year = year;
+		}
+		public String getPublisher( ) {
+			
+			return publisher;
+		}
+		public void setPublisher( String publisher ) {
+			
+			this.publisher = publisher;
+		}
+
+		
+	}
+	
 	static void addComponent ( 	Container cont, 
-			GridBagLayout gbl, 
-			Component c, 
-			int x, int y, 
-			int width, int height, 
-			double weightx, double weighty )
+								GridBagLayout gbl, 
+								Component c, 
+								int x, int y, 
+								int width, int height, 
+								double weightx, double weighty )
 	{
 		GridBagConstraints gbc = new GridBagConstraints( );
 		gbc.fill = GridBagConstraints.BOTH;
@@ -135,7 +195,6 @@ public class Buecherverwaltung implements ActionListener {
 		addComponent( contentPane, gbl, btnSortByYear, 		3, 5, 1, 1, 1, 0);
 		addComponent( contentPane, gbl, btnSortByPublisher, 4, 5, 1, 1, 1, 0);
 		
-		//frame.add( contentPane );
 		frame.setSize( 510, 160 );
 		frame.setResizable( false );
 		frame.setVisible( true );
@@ -143,34 +202,56 @@ public class Buecherverwaltung implements ActionListener {
 	
 	public void writeInFile( File file ) {
 		
+		Book book = new Book( txtAuthor.getText( ), txtTitle.getText( ), txtYear.getText( ), txtPublisher.getText( ) ); 
+		
 		try ( ObjectOutputStream oos = new ObjectOutputStream( new FileOutputStream( file, true ) ) )  {
 			
+			oos.writeObject( book );			
+		} catch ( NotSerializableException e ) {
+			
+			System.err.println( e );
 		} catch ( IOException e ) {
 			
 			System.err.println( e.toString( ) );
-		}
+		} 
 	}
 	
-	public void readOutOfFile( ) throws ClassNotFoundException {
+	public List< Book > readOutOfFile( File file ) {
 		 
-		// Stringarray in hashset
-		Object o;
+		books = new ArrayList< Book >( );
 	
-		try ( ObjectInputStream ois = new ObjectInputStream( new FileInputStream( "xyz.txt" ) ) ) {
+		try {
+			fis = new FileInputStream( file );
 			
-			while ( ( o = ois.readObject( ) ) != null ) {
-            	
-				if (o instanceof HashSet < ? > ) {
-            		
-            	}
-	        }
-		} catch ( FileNotFoundException e ) {
-			
-			System.err.println( e.toString( ) );
 		} catch ( IOException e ) {
 			
 			System.err.println( e.toString( ) );
 		}
+		
+		while(true){
+			
+			try {
+				ois = new ObjectInputStream( fis );  
+				books.add( (Book) ois.readObject( ) );
+			} catch ( EOFException e ) {
+				
+				break; // EOF - break out of Loop
+			}   catch ( ClassNotFoundException e ) {
+			
+				System.err.println( e.toString( ) );
+			} catch ( IOException e ) {
+				
+				System.err.println( e.toString( ) );
+			} 
+		}
+		try {
+			
+			ois.close( );
+		} catch ( IOException e ) {
+			
+			System.err.println( e.toString( ) );
+		} 
+		return books;
 	}
 	
 	public File selectFile( ) {
@@ -190,6 +271,68 @@ public class Buecherverwaltung implements ActionListener {
 		}
 		return file;
 	}
+	
+	public void sortBy( List< Book > bookSort, String sortWhat ) {
+		
+		Book bookOut;
+		Iterator< Book > bookIter;
+		buffer = "";
+		
+		switch (sortWhat) {
+		
+		case "author":
+			
+			bookSort.sort( ( object1, object2) -> object1.getAuthor( ).compareTo( object2.getAuthor( ) ) );
+			bookIter = bookSort.iterator( );
+			while ( bookIter.hasNext( ) ) {
+
+				bookOut = bookIter.next( );
+				buffer += bookOut.getAuthor( ) + " " + bookOut.getTitle( ) + " " +  bookOut.getYear( ) + " " +  bookOut.getPublisher( ) + "\n";
+			}
+			JOptionPane.showMessageDialog( null, buffer );
+			buffer = "";
+			break;
+		case "title":
+			
+			bookSort.sort( ( object1, object2) -> object1.getTitle( ).compareTo( object2.getTitle( ) ) );
+			bookIter = bookSort.iterator( );
+			while ( bookIter.hasNext( ) ) {
+
+				bookOut = bookIter.next( );
+				buffer += bookOut.getTitle( ) + " " + bookOut.getAuthor( ) + " " +  bookOut.getYear( ) + " " +  bookOut.getPublisher( ) + "\n";
+			}
+			JOptionPane.showMessageDialog( null, buffer );
+			buffer = "";
+			break;
+		case "year":
+			
+			bookSort.sort( ( object1, object2) -> object1.getYear( ).compareTo( object2.getYear( ) ) );
+			bookIter = bookSort.iterator( );
+			while ( bookIter.hasNext( ) ) {
+
+				bookOut = bookIter.next( );
+				buffer += bookOut.getYear( ) + " " + bookOut.getAuthor( ) + " " +  bookOut.getTitle( ) + " " +  bookOut.getPublisher( ) + "\n";
+			}
+			JOptionPane.showMessageDialog( null, buffer );
+			buffer = "";
+			break;
+		case "publisher":
+			
+			bookSort.sort( ( object1, object2) -> object1.getPublisher( ).compareTo( object2.getPublisher( ) ) );
+			bookIter = bookSort.iterator( );
+			while ( bookIter.hasNext( ) ) {
+
+				bookOut = bookIter.next( );
+				buffer += bookOut.getPublisher( ) + " " + bookOut.getAuthor( ) + " " +  bookOut.getYear( ) + " " +  bookOut.getAuthor( ) + "\n";
+			}
+			JOptionPane.showMessageDialog( null, buffer );
+			buffer = "";
+			break;
+		default:
+			
+			System.out.println( "Fehler beim Sortieren." );
+		}
+	}
 
 	@Override
 	public void actionPerformed( ActionEvent evt ) {
@@ -197,23 +340,32 @@ public class Buecherverwaltung implements ActionListener {
 		if ( evt.getActionCommand( ).equals( "Eintrag speichern" ) ) {
 			
 			file = selectFile( );
+			writeInFile( file );
 		}
 		if ( evt.getActionCommand( ).equals( "Autor" ) ) {
 			
+			file = selectFile( );
+			sortBy( readOutOfFile( file ), "author");			
 		}
 		if ( evt.getActionCommand( ).equals( "Titel" ) ) {
 			
+			file = selectFile( );
+			sortBy( readOutOfFile( file ), "title");			
 		}
 		if ( evt.getActionCommand( ).equals( "Jahr" ) ) {
 			
+			file = selectFile( );
+			sortBy( readOutOfFile( file ), "year");			
 		}
 		if ( evt.getActionCommand( ).equals( "Verlag" ) ) {
 			
+			file = selectFile( );
+			sortBy( readOutOfFile( file ), "publisher");			
 		}
 	}
 	
 	public static void main( String[ ] args) {
-		
+			
 		new Buecherverwaltung( );
 	}
 }
