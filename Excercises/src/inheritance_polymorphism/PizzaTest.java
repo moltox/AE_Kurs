@@ -1,4 +1,4 @@
-package inheritance;
+package inheritance_polymorphism;
 
 import java.util.ArrayList;
 import java.util.Iterator;

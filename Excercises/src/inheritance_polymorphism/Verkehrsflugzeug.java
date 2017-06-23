@@ -1,4 +1,4 @@
-package inheritance;
+package inheritance_polymorphism;
 
 public class Verkehrsflugzeug extends Flugzeug {
 
