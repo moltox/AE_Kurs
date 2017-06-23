@@ -34,63 +34,66 @@ public class Exceptions {
 		contentPane.add( lblDividend );
 		
 		txtDividend = new JTextField( );
+		
 		contentPane.add( txtDividend );
-/*		txtDividend.addKeyListener( new KeyAdapter( ) {
-			
-			@Override
-			public void keyTyped( KeyEvent e ) {	
-				
-				if( e.getKeyCode( ) == KeyEvent.VK_ENTER ) {
-					
-					double ergebnis = integerDivision( txtDividend.getText( ), txtDivisor.getText( ) );
-					System.out.println( ergebnis );
-				}
-			}
-		});*/
 		
 		lblDivisor = new JLabel( "Divisor" );
 		contentPane.add( lblDivisor );
 		
 		txtDivisor = new JTextField( );
-		contentPane.add( txtDivisor );
 		txtDivisor.addKeyListener( new KeyAdapter( ) {
 			
 			@Override
-			public void keyTyped( KeyEvent e ) {	
-			
+			public void keyPressed( KeyEvent e ) {	
+
 				if( e.getKeyCode( ) == KeyEvent.VK_ENTER ) {
-				
+					
 					double ergebnis = integerDivision( txtDividend.getText( ), txtDivisor.getText( ) );
-					System.out.println( ergebnis );
+					if (ergebnis != 0.0 ) {
+						
+						System.out.println( ergebnis );
+					}
 				}
 			}
 		});
+		contentPane.add( txtDivisor );
 		
 		frame.setSize( 200, 80 );
 		frame.setVisible( true );
 	}
 	
-	public double integerDivision( String dividend, String divisor ) throws IllegalArgumentException,
-																	NumberFormatException, ArithmeticException {
+	public double integerDivision( String dividend, String divisor ) {
+		try {
+			
+			if ( dividend.equals( "" ) || divisor.equals( "" ) ) {
 		
-		if ( dividend == "" || divisor == "" ) {
-			
-			throw new IllegalArgumentException( );
-		}
+				throw new IllegalArgumentException( );
+			}
 		
-		else if ( !( isNumericProof = isNumeric( dividend ) ) || !( isNumericProof = isNumeric( dividend ) ) ) {
-			
-			throw new NumberFormatException( );
-		}		
+			else if ( !( isNumericProof = isNumeric( dividend ) ) || !( isNumericProof = isNumeric( dividend ) ) ) {
+	
+				throw new NumberFormatException( );
+			}		
 		
-		else if ( divisor.equals( "0" ) ) {
-			
-			throw new ArithmeticException( );
+			else if ( divisor.equals( "0" ) ) {
+	
+				throw new ArithmeticException( );
+			}
+			else {
+	
+				return Double.parseDouble( dividend ) / Double.parseDouble( divisor );
+			}
+		} catch ( ArithmeticException e ) {
+		
+			System.out.println( "ArithmeticException - Keine Division durch 0 erlaubt." );
+		} catch ( NumberFormatException e ) {
+		
+			System.out.println( "NumberFormatException - Nur ganzzahlige Werte erlaubt." );
+		} catch ( IllegalArgumentException e ) {
+		
+			System.out.println( "IllegalArgumentException - Kein Leerstring erlaubt." );
 		}
-		else {
-			
-			return Double.parseDouble( dividend ) / Double.parseDouble( divisor );
-		}
+		return 0;
 	}
 	
 	public static boolean isNumeric( String string ) {
@@ -111,18 +114,6 @@ public class Exceptions {
 	
 	public static void main( String[ ] args ) {
 		
-		try {
-		
-			new Exceptions();
-		} catch ( ArithmeticException e ) {
-			
-			System.out.println( "ArithmeticException" );
-		} catch ( NumberFormatException e ) {
-			
-			System.out.println( "NumberFormatException" );
-		} catch ( IllegalArgumentException e ) {
-			
-			System.out.println( "IllegalArgumentException" );
-		}
+		new Exceptions();		
 	}
 }
