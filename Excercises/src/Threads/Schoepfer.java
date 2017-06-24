@@ -1,20 +1,24 @@
 package Threads;
 
 import java.util.Random;
+import java.util.concurrent.locks.ReentrantLock;
+import java.util.concurrent.locks.Condition;
+import java.util.concurrent.locks.Lock;
 
 public class Schoepfer extends Thread {
 
 	String aufgabe;
 	Random rd;
-	static Object o;
-	int buffer;
+	int zulauf, ablauf;
 	
-	static int trog;
+	private static volatile int trog;
+	
+	private static final Lock lock = new ReentrantLock();
+	private static final Condition c = lock.newCondition();
 	
 	static {
 		
 		trog = 0;
-		o = new Object();
 	}
 	
 	Schoepfer( String aufgabe ) {
@@ -37,15 +41,48 @@ public class Schoepfer extends Thread {
 		return trog;
 	}
 	
-	public static void incrementTrog( int menge ) {
+	public static void incrementTrog( int zulauf ) {
 		
-		Schoepfer.trog += menge;
+		lock.lock( );
+		
+		try {
+			
+			Schoepfer.trog += zulauf;
+			c.signalAll( );
+		} finally {
+			
+			lock.unlock( );
+		}
+	}
+	
+	public static void decrementTrog( int ablauf ) {
+		
+		lock.lock( );
+		
+		try {
+			
+			while ( trog < ablauf ) {			
+				
+				try {
+					
+					c.await();
+				} catch ( InterruptedException e ) {
+
+					System.err.println( e.toString( ) );
+				}
+			}
+			
+			Schoepfer.trog -= ablauf;			
+		} finally {
+			
+			lock.unlock( );
+		}
 	}
 	
 	public int erzeugeZufallsMenge( ) {
 		
 		rd = new Random( );
-		int zufallszahl = rd.nextInt( 20 ) + 1;
+		int zufallszahl = rd.nextInt( 20 );
 		return zufallszahl;		
 	}
 	
@@ -60,20 +97,12 @@ public class Schoepfer extends Thread {
 					
 					try {
 
-						buffer = erzeugeZufallsMenge( );
-						incrementTrog( buffer );
-						System.out.println("Pumpe: " + buffer + " Liter Wasser hinzugefügt -> Neue Gesamtmenge: " + getTrog( ) );
-				
-						synchronized( o ) {	
-							
-							if ( trog > 20 ) {
-								
-							o.notifyAll( );
-							}
-						}
+						zulauf = erzeugeZufallsMenge( );
+						incrementTrog( zulauf );
+						System.out.println( "Pumpe: " + zulauf + " Liter Wasser hinzugefügt -> Neue Gesamtmenge: " + getTrog( ) );
 						sleep( 1000 );
 							
-					} catch( InterruptedException e ) {
+					} catch ( InterruptedException e ) {
 					}
 				}
 					
@@ -82,20 +111,13 @@ public class Schoepfer extends Thread {
 				while( true ) {
 					
 					try {
-						synchronized( o ) {
-							
-							if ( trog < 20 ) {
-							
-								o.wait( );
-							}
-						}
 						
-						buffer = erzeugeZufallsMenge( ) * -1;
-						incrementTrog( buffer );
-						System.out.println("Verteiler: " + buffer*-1 + " Liter Wasser abgeschöpft -> Neue Gesamtmenge: " + getTrog( ) );
+						ablauf = erzeugeZufallsMenge( );
+						decrementTrog( ablauf );
+						System.out.println( "Verteiler: " + ablauf + " Liter Wasser abgeschöpft -> Neue Gesamtmenge: " + getTrog( ) );
 						sleep( 1000 );
 						
-					} catch( InterruptedException e ) {
+					} catch ( InterruptedException e ) {
 					}
 				}
 					
