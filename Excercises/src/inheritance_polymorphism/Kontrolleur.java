@@ -8,26 +8,55 @@ public class Kontrolleur {
 		
 		if( namen.length != tickets.length ) {
 			
-			throw new IllegalArgumentException();
+			throw new IllegalArgumentException( );
 		}
 		
 		for ( int i = 0; i < tickets.length; i++ ) {
-			
-			
-			if( !tickets[ i ].isEntwertet( ) ) {
+						
+			if ( tickets[ i ].getClass( ).getName( ).equals( "inheritance_polymorphism.Generalabo" ) ) {
 				
-				tickets[ i ].entwerten( );
+				if ( ( ( Generalabo ) tickets[ i ] ).gibVerfallsDatum( ).compareTo( datum ) < 0 ) {
+					
+					schwarzFahrer++;
+				}
+				else if ( !tickets[ i ].gueltigInZone( zone ) ) {
+					
+					schwarzFahrer++;
+				}
+				else if ( !( ( Generalabo ) tickets[ i ] ).gibInhaber( ).equals( namen[ i ] ) ) {
+					
+					schwarzFahrer++;
+				}
 			}
 			
-			if ( !tickets[ i ].gueltigInZone( zone ) ||
-					!( ( Generalabo) tickets[ i ]).gibInhaber().equals( namen[ i ] ) ||
-						( ( Generalabo ) tickets[ i ] ).gibVerfallsDatum( ).compareTo( datum ) < 0  ||
-							( ( Einzelticket ) tickets[ i ] ).gibVerfallsDatum( ).compareTo( datum ) < 0 ) {
+			else if ( tickets[ i ].getClass( ).getName( ).equals( "inheritance_polymorphism.Mehrfahrtenkarte" ) ) {
+				
+				if( !tickets[ i ].isEntwertet( ) ) {
+					
+					tickets[ i ].entwerten( );
+				}
+				if ( !tickets[ i ].gueltigInZone( zone ) ) {
+					
+					schwarzFahrer++;
+				}
+			}
 			
-				schwarzFahrer++;
+			else if ( tickets[ i ].getClass( ).getName( ).equals( "inheritance_polymorphism.Einzelticket" ) ) {
+				
+				if( !tickets[ i ].isEntwertet( ) ) {
+					
+					tickets[ i ].entwerten( );
+				}
+				if ( !tickets[ i ].gueltigInZone( zone ) ) {
+					
+					schwarzFahrer++;
+				}
+				else if ( ( ( Einzelticket ) tickets[ i ] ).gibVerfallsDatum( ).compareTo( datum ) < 0 ) {
+					
+					schwarzFahrer++;
+				}
 			}
 		}
-		
 		return schwarzFahrer;
 	}
 }
