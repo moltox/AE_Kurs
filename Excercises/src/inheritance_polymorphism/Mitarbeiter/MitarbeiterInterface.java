@@ -1,4 +1,4 @@
-package inheritance_polymorphism;
+package inheritance_polymorphism.Mitarbeiter;
 
 public interface MitarbeiterInterface {
 

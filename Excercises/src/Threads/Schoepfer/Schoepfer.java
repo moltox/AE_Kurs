@@ -1,4 +1,4 @@
-package Threads;
+package Threads.Schoepfer;
 
 import java.util.Random;
 import java.util.concurrent.locks.ReentrantLock;

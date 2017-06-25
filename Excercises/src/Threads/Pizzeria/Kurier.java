@@ -1,4 +1,4 @@
-package Threads;
+package Threads.Pizzeria;
 
 public class Kurier extends Thread {
 

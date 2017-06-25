@@ -1,4 +1,4 @@
-package Threads;
+package Threads.Pizzeria;
 
 import java.util.Random;
 

@@ -1,4 +1,4 @@
-package inheritance_polymorphism;
+package inheritance_polymorphism.Pizzeria;
 
 public abstract class Pizza {
 	
