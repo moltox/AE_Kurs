@@ -3,7 +3,9 @@ package CandyCrushFuerArme;
 import java.awt.Color;
 import java.awt.Dimension;
 
+import javax.swing.BorderFactory;
 import javax.swing.JLabel;
+import javax.swing.border.Border;
 
 public class Tile extends JLabel {
 
@@ -12,9 +14,16 @@ public class Tile extends JLabel {
 	private Color color;
 	private Dimension dimension;
 	private String label;
+	private Border border;
 	
-	private final int HEIGHT = 20;
-	private final int WIDTH = 20;
+	private final int HEIGHT;
+	private final int WIDTH;
+	
+	{
+		HEIGHT = 20;
+		WIDTH = 20;
+		border = BorderFactory.createLineBorder( Color.BLACK, 1 );
+	}
 
 	Tile( ) {
 		
@@ -22,6 +31,8 @@ public class Tile extends JLabel {
 		setColor( generateRandomColor( ) );
 		setDimension( new Dimension ( HEIGHT, WIDTH ) );
 		getTile( ).setSize( this.dimension );
+		getTile( ).setBorder( border );
+		getTile( ).setOpaque( true );
 		getTile( ).setBackground( getColor( ) );
 	}
 
@@ -31,13 +42,15 @@ public class Tile extends JLabel {
 		setTile( new JLabel ( getLabel( ) ) );
 		setColor( new Color( 255, 255, 255 ) );
 		setDimension( new Dimension ( HEIGHT, WIDTH ) );
+		getTile( ).setVerticalTextPosition(CENTER);;
 		getTile( ).setSize( this.dimension );
+		getTile( ).setOpaque( true );
 		getTile( ).setBackground( getColor( ) );
 	}
 
 	public JLabel getTile( ) {
 		
-		return tile;
+		return this.tile;
 	}
 	
 	protected void setTile( JLabel tile ) {
@@ -47,7 +60,7 @@ public class Tile extends JLabel {
 	
 	public Color getColor( ) {
 		
-		return color;
+		return this.color;
 	}
 	
 	protected void setColor( Color color ) {
@@ -77,7 +90,8 @@ public class Tile extends JLabel {
 	
 	public Color generateRandomColor( ) {
 		
-		int random = ( int ) Math.random( ) * 7;
+		int random = ( int ) ( Math.random( ) * 8 );
+		System.out.println(random);
 		
 		switch ( random ) {
 		
@@ -107,7 +121,7 @@ public class Tile extends JLabel {
 			return new Color( 0, 255, 255 ); // cyan
 		default:
 			
-			System.out.println( "Fehler beim erzeugen des Farbwertes!" );
+			System.out.println( "Fehler beim Erzeugen des Farbwertes!" );
 			return new Color( 0, 0, 0 );
 		}
 	}

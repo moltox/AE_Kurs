@@ -1,19 +1,20 @@
 package CandyCrushFuerArme;
 
-import java.awt.Color;
-import java.awt.Container;
 import java.awt.GridLayout;
+
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
 import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
 
 
 public class PlayingField {
 
 	private JFrame frame;
-	private Container container;
+	private JPanel panel;
 	
 	private List< Tile > tileList;
 	char column;
@@ -22,7 +23,7 @@ public class PlayingField {
 	{
 		tileList = new ArrayList< Tile >( );
 		column = 'A';
-		row = 1;
+		row = 0;
 	}
 
 	
@@ -31,25 +32,21 @@ public class PlayingField {
 		frame = new JFrame( );
 		frame.setTitle( "CandCrush fuer Arme" );
 		frame.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
-		
-		container = new Container( );		
-		container = frame.getContentPane( );
-		container.setLayout( new GridLayout( playfieldScale, playfieldScale ) );
-		container.setBackground( new Color ( 255, 255, 255 ) );
+				
+		panel = new JPanel( );
+		panel.setLayout( new GridLayout( playfieldScale, playfieldScale ) );
+		//panel.setBackground( new Color ( 255, 255, 255 ) );
+		frame.setContentPane( panel );
 		
 		for ( int i = 0; i < Math.pow( playfieldScale, 2 ); i++ ) {
 			
 			tileList.add( createTile( i, playfieldScale ) ); 
 		}
 		
-		Iterator< Tile > tileListIterator = tileList.iterator( );
+		createPlayfield( tileList, panel );
 		
-		while ( tileListIterator.hasNext( ) ) {
-			
-			container.add( tileListIterator.next( ) );
-		}
-		frame.pack();
-		frame.setSize( 400, 400);
+		frame.setResizable( false );
+		frame.setSize( 400, 400 );
 		frame.setVisible( true );
 	}
 	
@@ -62,9 +59,23 @@ public class PlayingField {
 			return tile;
 		} else {
 			
-			Tile tile = position % position == 0 ? new Tile( String.valueOf( column ) ): new Tile( );
-			column++;
+			Tile tile = ( position % playfieldScale == 0 ) ? new Tile( String.valueOf( column ) ) : new Tile( );
+
+			if ( position % playfieldScale == 0 )
+				column++;
+			
 			return tile;
 		}
+	}
+	
+	public JPanel createPlayfield( List< Tile > tileList, JPanel panel ) {
+		
+		Iterator< Tile > tileListIterator = tileList.iterator( );
+
+		while ( tileListIterator.hasNext( ) ) {
+			
+			panel.add( ( JLabel ) tileListIterator.next( ).getTile( ) );
+		}
+		return panel;
 	}
 }
