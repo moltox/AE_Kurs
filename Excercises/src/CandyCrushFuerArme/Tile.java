@@ -15,21 +15,25 @@ public class Tile extends JLabel {
 	private Dimension dimension;
 	private String label;
 	private Border border;
+	private int x;
+	private int y;
 	
 	private final int HEIGHT;
 	private final int WIDTH;
 	
 	{
-		HEIGHT = 20;
-		WIDTH = 20;
-		border = BorderFactory.createLineBorder( Color.BLACK, 1 );
+		HEIGHT = 40;
+		WIDTH = 40;
+		border = BorderFactory.createLineBorder( Color.BLACK );
 	}
 
-	Tile( ) {
+	Tile( int x, int y ) {
 		
 		setTile( new JLabel ( ) );
 		setColor( generateRandomColor( ) );
 		setDimension( new Dimension ( HEIGHT, WIDTH ) );
+		setXCo( x );
+		setYCo( y );
 		getTile( ).setSize( this.dimension );
 		getTile( ).setBorder( border );
 		getTile( ).setOpaque( true );
@@ -88,10 +92,29 @@ public class Tile extends JLabel {
 		return this.label;
 	}
 	
+	public int getXCo( ) {
+		
+		return x;
+	}
+
+	protected void setXCo( int x ) {
+		
+		this.x = x;
+	}
+
+	public int getYCo( ) {
+		
+		return y;
+	}
+
+	protected void setYCo( int y ) {
+		
+		this.y = y;
+	}
+	
 	public Color generateRandomColor( ) {
 		
 		int random = ( int ) ( Math.random( ) * 8 );
-		System.out.println(random);
 		
 		switch ( random ) {
 		

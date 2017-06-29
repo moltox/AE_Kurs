@@ -1,6 +1,8 @@
 package CandyCrushFuerArme;
 
 import java.awt.GridLayout;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -17,13 +19,15 @@ public class PlayingField {
 	private JPanel panel;
 	
 	private List< Tile > tileList;
-	char column;
-	int row;
-	
+	private char column;
+	private int row;
+	private final int COMPONENTSCALE;
+		
 	{
 		tileList = new ArrayList< Tile >( );
 		column = 'A';
 		row = 0;
+		COMPONENTSCALE = 40;
 	}
 
 	
@@ -34,8 +38,8 @@ public class PlayingField {
 		frame.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
 				
 		panel = new JPanel( );
-		panel.setLayout( new GridLayout( playfieldScale, playfieldScale ) );
-		//panel.setBackground( new Color ( 255, 255, 255 ) );
+		GridLayout gl = new GridLayout( playfieldScale, playfieldScale );
+		panel.setLayout( gl );
 		frame.setContentPane( panel );
 		
 		for ( int i = 0; i < Math.pow( playfieldScale, 2 ); i++ ) {
@@ -45,13 +49,23 @@ public class PlayingField {
 		
 		createPlayfield( tileList, panel );
 		
+		frame.addMouseListener( new MouseAdapter( ) {
+			
+			public void mouseClicked( MouseEvent me ) {
+				
+				// System.out.println(me.getY( ) + me.getX( ) );
+				validateCoordinates( me.getX(), me.getY() );
+			}
+		});
 		frame.setResizable( false );
-		frame.setSize( 400, 400 );
+		frame.setSize( ( playfieldScale * COMPONENTSCALE ), ( playfieldScale * COMPONENTSCALE ) );
 		frame.setVisible( true );
 	}
 	
 	public Tile createTile( int position, int playfieldScale ) {
 		
+		int x = 0;
+		int y = 0;
 		if ( position < playfieldScale ) {
 			
 			Tile tile = position != 0 ? new Tile( String.valueOf( row ) ): new Tile( "" );
@@ -59,8 +73,12 @@ public class PlayingField {
 			return tile;
 		} else {
 			
-			Tile tile = ( position % playfieldScale == 0 ) ? new Tile( String.valueOf( column ) ) : new Tile( );
-
+			Tile tile = ( position % playfieldScale == 0 ) ? new Tile( String.valueOf( column ) ) : new Tile( x, y );
+			
+			if ( y++ == playfieldScale ) {
+				x++;
+				y = 0; 
+			}
 			if ( position % playfieldScale == 0 )
 				column++;
 			
@@ -77,5 +95,15 @@ public class PlayingField {
 			panel.add( ( JLabel ) tileListIterator.next( ).getTile( ) );
 		}
 		return panel;
+	}
+	
+	public String validateCoordinates( int x, int y ) {
+
+		y =  ( y - COMPONENTSCALE ) / COMPONENTSCALE;
+	    y = 'A' + y;
+	    x =  x  / COMPONENTSCALE;
+	    // todo koordinaten
+	    String s = Character.toString( ( char ) y ) + String.valueOf( x );
+	    return s;
 	}
 }
