@@ -2,6 +2,7 @@ package CandyCrush;
 
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.Graphics;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -13,6 +14,8 @@ import javax.swing.JPanel;
 public class Spielfeld extends JFrame {
 
 	Feld[ ][ ] feld = new Feld[ 10 ][ 10 ];
+	int x1, y1;
+	boolean checked = false;
 	
 	Spielfeld( ) {
 		
@@ -22,7 +25,28 @@ public class Spielfeld extends JFrame {
 		for ( int z = 0; z < feld.length; z++ ) {
 			for ( int sp = 0; sp < feld[z].length; sp++ ) {
 				Feld f = new Feld( );
-				f.addActionListener( fl );
+				f.addActionListener( new ActionListener() {
+					public void actionPerformed( ActionEvent evt ) {
+						for ( int z = 0; z < feld.length; z++ ) {
+							for ( int sp = 0; sp < feld[ z ].length; sp++ ) {
+								if( evt.getSource( ) == feld[ z ][ sp ] ) {
+									System.out.println("Zeile: " + z + " Spalte: " + sp );
+									if ( !checked ) {
+										x1 = z;
+										y1 = sp;
+										checked = true;
+										System.out.println( x1 + " " + y1 );
+									} else if ( checked ) {
+										feld[x1][y1] = feld[z][sp];
+										feld[z][sp] = feld[x1][y1];
+										checked = false;
+										panel.repaint();
+									}
+								}
+							}
+						}
+					}
+				});
 				f.setPreferredSize( new Dimension( 40, 40 ) );
 				f.setBackground( generateRandomColor( ) );
 				feld[z][sp] = f;
@@ -60,19 +84,6 @@ public class Spielfeld extends JFrame {
 			return new Color( 0, 0, 0 );
 		}
 	}
-	
-	private class FeldListener implements ActionListener {
-		public void actionPerformed( ActionEvent evt ) {
-			for ( int z = 0; z < feld.length; z++ ) {
-				for ( int sp = 0; sp < feld[ z ].length; sp++ ) {
-					if( evt.getSource( ) == feld[ z ][ sp ] ) {
-						System.out.println("Zeile: " + z + " Spalte: " + sp);
-					}
-				}
-			}
-		}
-	}
-	FeldListener fl = new FeldListener( ); 
 	
 	public static void main( String[ ] args ) {
 		new Spielfeld( );
