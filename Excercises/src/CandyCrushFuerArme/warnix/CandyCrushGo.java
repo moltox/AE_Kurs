@@ -1,4 +1,4 @@
-package CandyCrushFuerArme;
+package CandyCrushFuerArme.warnix;
 
 import javax.swing.JOptionPane;
 

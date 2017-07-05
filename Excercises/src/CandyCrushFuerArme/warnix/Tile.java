@@ -1,4 +1,4 @@
-package CandyCrushFuerArme;
+package CandyCrushFuerArme.warnix;
 
 import java.awt.Color;
 import java.awt.Dimension;
